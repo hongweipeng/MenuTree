@@ -4,12 +4,12 @@
  * 
  * @package MenuTree
  * @author hongweipeng
- * @version 0.7.0
+ * @version 0.8.0
  * @link https://www.hongweipeng.com
  */
 class MenuTree_Plugin implements Typecho_Plugin_Interface {
 
-    public static $v = '0.7.0';
+    public static $v = '0.8.0';
     
     /**
      * 索引ID
