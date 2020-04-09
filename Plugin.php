@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit(0);
  * 
  * @package MenuTree
  * @author hongweipeng
- * @version 0.8.0
+ * @version 0.8.1
  * @link https://www.hongweipeng.com
  */
 class MenuTree_Plugin implements Typecho_Plugin_Interface {
