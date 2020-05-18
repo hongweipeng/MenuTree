@@ -152,16 +152,19 @@ class MenuTree_Plugin implements Typecho_Plugin_Interface {
         foreach( $tree as $menu ) {
             if( ! isset( $menu['id'] ) && $menu['sub'] ) {
                 $menuHtml .= self::buildMenuHtml( $menu['sub'], false );
-            } elseif( $menu['sub'] ) {
-                $menuHtml .= "<li><a data-scroll href=\"#{$menu['id']}\" title=\"{$menu['title']}\">{$menu['title']}</a>" . self::buildMenuHtml( $menu['sub'] ) . "</li>";
             } else {
-                $menuHtml .= "<li><a data-scroll href=\"#{$menu['id']}\" title=\"{$menu['title']}\">{$menu['title']}</a></li>";
+                $title = htmlspecialchars($menu['title'], ENT_QUOTES);
+                $li = "<li><a data-scroll href=\"#{$menu['id']}\" title=\"{$title}\">{$title}</a>";
+                if ($menu['sub']) {
+                    $li .= self::buildMenuHtml( $menu['sub'] );
+                }
+                $li .= "</li>";
+                $menuHtml .= $li;
             }
         }
         if( $include ) {
             $menuHtml = '<ul>' . $menuHtml . '</ul>';
         }
-        $menuHtml = str_replace("'", '&apos;', $menuHtml);
         return $menuHtml;
     }
 
