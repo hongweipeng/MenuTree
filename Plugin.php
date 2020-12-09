@@ -66,6 +66,9 @@ class MenuTree_Plugin implements Typecho_Plugin_Interface {
         ), 0, _t('文章无标题时隐藏'), _t('文章中无h1、h2、h3...时隐藏'));
         $form->addInput($hidden_set->addRule('enum', _t('必须选择一个模式'), array(0, 1)));
 
+        $anchor_offset = new Typecho_Widget_Helper_Form_Element_Text('anchor_offset', NULL, '0', _t('标题链接偏移量(单位 em)'), _t('填入数字，支持负数'));
+        $form->addInput($anchor_offset);
+
     }
 
     /**
@@ -138,7 +141,7 @@ class MenuTree_Plugin implements Typecho_Plugin_Interface {
             }
         }
         self::$id++;
-        return "<span id=\"{$menu['id']}\" name=\"{$menu['id']}\"></span>" . $html;
+        return "<span id=\"{$menu['id']}\" class=\"anchor\" name=\"{$menu['id']}\"></span>" . $html;
     }
     
     /**
@@ -203,7 +206,19 @@ class MenuTree_Plugin implements Typecho_Plugin_Interface {
             return;
         }
         $cssUrl = Helper::options()->pluginUrl . '/MenuTree/menutree.css?v=' . self::$v;
-        echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
+        $anchor_offset = Helper::options()->plugin('MenuTree')->anchor_offset;
+
+        echo <<<EOF
+<link rel="stylesheet" type="text/css" href="{$cssUrl}" />
+<style>
+span.anchor {
+    display: block;
+    position: relative;
+    top: {$anchor_offset}em;
+    visibility: hidden;
+}
+</style>
+EOF;
     }
 
     /**
