@@ -174,10 +174,12 @@ class MenuTree_Plugin implements Typecho_Plugin_Interface {
     /**
      * 判断是否是内容页，避免主页加载插件
      */
-    public static function is_content() {
+    public static function is_content($widget = null) {
         static $is_content = null;
-        if($is_content === null) {
+        if (!$widget) {
             $widget = Typecho_Widget::widget('Widget_Archive');
+        }
+        if($is_content === null) {
             $is_content = !($widget->is('index') || $widget->is('search') || $widget->is('date') || $widget->is('category') || $widget->is('author'));
         }
         return $is_content;
@@ -190,7 +192,7 @@ class MenuTree_Plugin implements Typecho_Plugin_Interface {
      */
     public static function parse( $html, $widget, $lastResult ) {
         $html = empty( $lastResult ) ? $html : $lastResult;
-        if (!self::is_content()) {
+        if (!self::is_content($widget)) {
             return $html;
         }
         $html = preg_replace_callback( '/<h([1-6])[^>]*>.*?<\/h\1>/s', array( 'MenuTree_Plugin', 'parseCallback' ), $html );
